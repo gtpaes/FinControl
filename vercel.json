@@ -1,4 +1,6 @@
 {
+  "buildCommand": "npm run build",
+  "installCommand": "npm ci",
   "outputDirectory": "docs",
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/index.html" }
