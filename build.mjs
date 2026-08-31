@@ -20,10 +20,11 @@ const envDefines = {
 };
 
 function buildCSS() {
-  const args = ['@tailwindcss/cli', '-i', 'docs/src/index.css', '-o', `${outdir}/styles.css`];
+  const cliPath = resolve(__dirname, 'node_modules/@tailwindcss/cli/dist/index.mjs');
+  const args = [cliPath, '-i', 'docs/src/index.css', '-o', `${outdir}/styles.css`];
   if (isProd) args.push('--minify');
   if (isWatch) args.push('--watch');
-  const r = spawnSync('npx', args, { stdio: 'inherit', shell: true });
+  const r = spawnSync(process.execPath, args, { stdio: 'inherit' });
   if (r.status !== 0) process.exit(r.status || 1);
 }
 
