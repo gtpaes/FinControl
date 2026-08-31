@@ -4,10 +4,6 @@ backend/target/
 
 # ===== Frontend (esbuild) =====
 node_modules/
-docs/bundle.js
-docs/bundle.js.map
-docs/styles.css
-docs/assets/
 *.tsbuildinfo
 
 # ===== IDE =====
