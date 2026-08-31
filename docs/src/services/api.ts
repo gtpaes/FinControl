@@ -8,7 +8,7 @@
  * - Nunca confiamos em userId do frontend: o backend extrai do JWT.
  */
 
-export const API_URL = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '') ?? 'http://localhost:8080';
+export const API_URL = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '') || 'http://localhost:8080';
 
 const TOKEN_KEY = 'fincontrol_token';
 
