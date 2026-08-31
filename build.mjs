@@ -1,13 +1,13 @@
 import * as esbuild from 'esbuild';
 import { spawnSync } from 'child_process';
-import { mkdirSync, copyFileSync } from 'fs';
+import { mkdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const isProd = process.env.NODE_ENV === 'production' || Boolean(process.env.VERCEL);
 const isWatch = process.argv.includes('--watch');
-const outdir = resolve(__dirname, 'dist');
+const outdir = resolve(__dirname, 'docs');
 
 mkdirSync(outdir, { recursive: true });
 
@@ -55,12 +55,10 @@ async function main() {
     // JS watch via esbuild context
     const ctx = await esbuild.context(esbuildOptions);
     await ctx.watch();
-    copyFileSync(resolve(__dirname, 'docs/index.html'), `${outdir}/index.html`);
     console.log('👀 Watching for changes...');
   } else {
     buildCSS();
     await esbuild.build(esbuildOptions);
-    copyFileSync(resolve(__dirname, 'docs/index.html'), `${outdir}/index.html`);
     console.log('✅ Build complete:', outdir);
   }
 }

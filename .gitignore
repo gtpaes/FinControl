@@ -2,9 +2,12 @@
 backend/target/
 *.class
 
-# ===== Frontend (Vite/React) =====
+# ===== Frontend (esbuild) =====
 node_modules/
-dist/
+docs/bundle.js
+docs/bundle.js.map
+docs/styles.css
+docs/assets/
 *.tsbuildinfo
 
 # ===== IDE =====
