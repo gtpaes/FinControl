@@ -1,0 +1,22 @@
+# ===== Java / Maven =====
+backend/target/
+*.class
+
+# ===== Frontend (Vite/React) =====
+node_modules/
+dist/
+*.tsbuildinfo
+
+# ===== IDE =====
+.idea/
+*.iml
+.vscode/
+
+# ===== Secrets / ambiente =====
+# NUNCA versionar credenciais reais (.env, .env.local, .env.production...)
+.env
+.env.*
+
+# ===== Logs =====
+*.log
+

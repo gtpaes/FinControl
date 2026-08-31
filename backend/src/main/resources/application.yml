@@ -1,0 +1,38 @@
+# ============================================================
+# Configuração PADRÃO (aplica a todos os perfis)
+# O perfil ativo é escolhido por perfil no arquivo específico:
+#   - development: application-development.yml
+#   - production:  application-production.yml
+# ============================================================
+
+spring:
+  application:
+    name: fincontrol-backend
+  # A connection string do MongoDB é definida por perfil:
+  #   - development/production: MONGODB_URI (nunca no código-fonte)
+  #   - test:                    MongoDB embarcado (Flapdoodle injeta host/porta)
+  data:
+    mongodb:
+      # Cria índices definidos em @Document automaticamente.
+      auto-index-creation: true
+
+server:
+  # Render atribui a porta dinâmica via env PORT; respeita-a sem hardcodear.
+  port: ${PORT:8080}
+  error:
+    include-stacktrace: never
+
+# Configurações próprias da aplicação (prefixo "app")
+app:
+  cors:
+    # Lida pela variável de ambiente FRONTEND_URL (não liberado se vazia)
+    frontend-url: ${FRONTEND_URL:}
+  security:
+    jwt:
+      # Segredo do JWT: SEMPRE via variável de ambiente JWT_SECRET
+      # (mínimo 32 caracteres). Nunca coloque o valor real aqui.
+      secret: ${JWT_SECRET:}
+      # Duração do token: variável JWT_EXPIRATION.
+      # Aceita ISO-8601 (ex.: PT1H = 1 hora) ou milissegundos (ex.: 3600000).
+      # Valor padrão: 1 hora.
+      expiration: ${JWT_EXPIRATION:PT1H}

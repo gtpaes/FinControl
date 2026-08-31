@@ -1,0 +1,14 @@
+# ============================================================
+# PERFIL DE DESENVOLVIMENTO (padrão)
+# As credenciais vêm de variáveis de ambiente / arquivo .env.
+# NUNCA coloque a senha real aqui nem faça commit dela.
+# ============================================================
+
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:}
+
+logging:
+  level:
+    com.fincontrol: DEBUG

@@ -1,0 +1,14 @@
+# ============================================================
+# PERFIL DE PRODUÇÃO
+# TODAS as credenciais obrigatoriamente via variáveis de ambiente.
+# ============================================================
+
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+
+logging:
+  level:
+    com.fincontrol: INFO
+

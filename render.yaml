@@ -1,0 +1,27 @@
+# ============================================================
+# FinControl — Blueprint de deploy no Render
+# Backend: Web Service Docker (Java 21 + Spring Boot + MongoDB Atlas)
+#
+# Deploy via dashboard: Render → New → Blueprint → aponte para este repo.
+# Variáveis marcadas com sync: false são preenchidas no painel
+# (NUNCA comitar MONGODB_URI ou JWT_SECRET aqui).
+# ============================================================
+services:
+  - type: web
+    name: fincontrol-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true   # Render gera um segredo aleatório de 32+ chars
+      - key: JWT_EXPIRATION
+        value: PT1H
+      - key: FRONTEND_URL
+        sync: false           # ex.: https://fincontrol-frontend.onrender.com
