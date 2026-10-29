@@ -39,4 +39,4 @@ jobs:
           cache: maven
       - name: Compilar e testar (MongoDB embarcado)
         working-directory: backend
-        run: ./mvnw -B verify
+        run: bash ./mvnw -B verify
