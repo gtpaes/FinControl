@@ -407,3 +407,7 @@ e tem dois jobs:
 O repositório não tem testes automatizados (`backend/src/test` não existe),
 então o job do backend compila o projeto sem verificar comportamento. O
 MongoDB embarcado (Flapdoodle) já está declarado no `pom.xml` para uso em testes.
+
+## Funciona Somente Em LOCALHOST
+
+
