@@ -239,7 +239,8 @@ volume `mongo_data`. Use `down -v` para apagá-los.
    Quando a página é aberta em `localhost`, `docs/js/env-api.js` aponta
    automaticamente para `http://localhost:8080`.
    Se a porta 5500 estiver ocupada, inicie o stack com `npm run dev -- 5501`;
-   o backend libera a origem local escolhida no CORS.
+   o perfil local permite origens em portas localhost variáveis no CORS. Essa
+   permissão só é ativada no perfil de desenvolvimento.
 
 Copie `backend/.env.example` para `backend/.env` e ajuste os valores. O arquivo
 `.env` está no `.gitignore` e nunca deve ser versionado.
@@ -409,5 +410,4 @@ então o job do backend compila o projeto sem verificar comportamento. O
 MongoDB embarcado (Flapdoodle) já está declarado no `pom.xml` para uso em testes.
 
 ## Funciona Somente Em LOCALHOST
-
 

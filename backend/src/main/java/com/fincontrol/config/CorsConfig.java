@@ -3,6 +3,7 @@ package com.fincontrol.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -25,6 +26,9 @@ public class CorsConfig {
     @Value("${app.cors.frontend-url:}")
     private String frontendUrl;
 
+    @Value("${app.cors.allow-localhost-ports:false}")
+    private boolean allowLocalhostPorts;
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -37,15 +41,23 @@ public class CorsConfig {
                         .map(String::trim)
                         .filter(s -> !s.isEmpty())
                         .toArray(String[]::new);
-                if (origens.length == 0) {
+                if (origens.length == 0 && !allowLocalhostPorts) {
                     return;
                 }
-                registry.addMapping("/api/**")
-                        .allowedOrigins(origens)
+                CorsRegistration cors = registry.addMapping("/api/**")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .exposedHeaders("Authorization")
                         .maxAge(3600);
+                if (allowLocalhostPorts) {
+                    String[] padroes = java.util.stream.Stream.concat(
+                                    java.util.Arrays.stream(origens),
+                                    java.util.stream.Stream.of("http://localhost:*", "http://127.0.0.1:*"))
+                            .toArray(String[]::new);
+                    cors.allowedOriginPatterns(padroes);
+                } else {
+                    cors.allowedOrigins(origens);
+                }
             }
         };
     }

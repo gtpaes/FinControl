@@ -10,6 +10,10 @@ spring:
       uri: ${MONGODB_URI:}
       database: ${MONGODB_DATABASE:fincontrol_dev}
 
+app:
+  cors:
+    allow-localhost-ports: true
+
 logging:
   level:
     com.fincontrol: DEBUG
