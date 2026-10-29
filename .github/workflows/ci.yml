@@ -21,10 +21,10 @@ jobs:
       - name: Sanidade básica (arquivos essenciais presentes)
         run: |
           test -f docs/index.html
-          test -f docs/app.js
-          test -f docs/pages.js
-          test -f docs/api.js
-          test -f docs/httpService.js
+          test -f docs/js/app.js
+          test -f docs/js/api.js
+          test -f docs/js/env-api.js
+          test -f docs/pages/dashboard.js
           echo "frontend ok"
 
   backend:
