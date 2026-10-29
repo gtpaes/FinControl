@@ -1,0 +1,73 @@
+# ============================================================
+# FinControl — Modo DESENVOLVIMENTO em localhost
+#
+# Sobe o stack inteiro em um único comando:
+#   docker compose -f docker-compose.dev.yml up  (adicione --build na 1ª vez)
+#
+# Serviços:
+#   - mongo     : MongoDB 7 local (porta 27017)
+#   - backend   : Spring Boot (Java 21) — API em http://localhost:8080
+#   - frontend  : nginx servindo docs/ (HTML+CSS+JS puro) em http://localhost:5500
+#
+# Pare tudo com:  docker compose -f docker-compose.dev.yml down
+# (dados do Mongo persistem no volume "mongo_data"; use down -v para apagar)
+# ============================================================
+services:
+  mongo:
+    image: mongo:7
+    container_name: fincontrol-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    # JWT/credenciais de DEV ficam aqui (nunca em produção).
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fincontrol-api
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: development
+      MONGODB_URI: mongodb://mongo:27017/fincontrol_dev
+      # Segredo de desenvolvimento (mín. 32 chars). NUNCA repetir em produção.
+      JWT_SECRET: "dev-only-chave-jwt-...-troque-em-producao!"
+      JWT_EXPIRATION: PT8H
+      # Assistente com Claude: exporte ANTHROPIC_API_KEY no shell (vazio = modo local).
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      # Origens liberadas no CORS (dev local — pode ter várias portas).
+      FRONTEND_URL: "http://localhost:5500,http://localhost:3000,http://localhost:5173,http://localhost:8081,http://127.0.0.1:5500"
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "sh", "-c", "wget -qO- http://localhost:8080/api/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  frontend:
+    image: nginx:alpine
+    container_name: fincontrol-web
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "5500:80"
+    volumes:
+      # Serve os arquivos estáticos do frontend; como o router usa hash (#/),
+      # não é preciso rewrite de SPA no nginx.
+      - ./docs:/usr/share/nginx/html:ro
+
+volumes:
+  mongo_data:

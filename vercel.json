@@ -1,7 +1,7 @@
 {
-  "buildCommand": "npm run build",
-  "installCommand": "npm ci",
+  "buildCommand": "node build.mjs",
   "outputDirectory": "docs",
+  "installCommand": "",
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]

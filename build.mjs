@@ -1,70 +1,30 @@
-import * as esbuild from 'esbuild';
-import { spawnSync } from 'child_process';
-import { mkdirSync } from 'fs';
+/**
+ * FinControl — build.
+ *
+ * Gera o `docs/js/env-api.js` com a URL base da API conforme o ambiente:
+ *   - local (localhost/127.0.0.1) → http://localhost:8080
+ *   - produção (GitHub Pages, etc.) → mesma origin (proxy/mesmo host)
+ *
+ * Uso: npm run build
+ */
+import { writeFile } from 'fs/promises';
+import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const isProd = process.env.NODE_ENV === 'production' || Boolean(process.env.VERCEL);
-const isWatch = process.argv.includes('--watch');
-const outdir = resolve(__dirname, 'docs');
+const TARGET = resolve(__dirname, 'docs', 'js', 'env-api.js');
 
-mkdirSync(outdir, { recursive: true });
+const CONTENT = `/* FinControl — configuração da API.
+ * Gerado por build.mjs — não editar manualmente.
+ * Em desenvolvimento (localhost) aponta para localhost:8080.
+ * Em produção usa a mesma origin (proxy reverso / mesmo host). */
+(function () {
+  const host = location.hostname;
+  const isLocal = host === 'localhost' || host === '127.0.0.1';
+  window.API_BASE = isLocal ? 'http://localhost:8080' : '';
+})();
+`;
 
-// Define import.meta.env for compatibility with existing code
-const envDefines = {
-  'import.meta.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL || ''),
-  'import.meta.env.MODE': JSON.stringify(isProd ? 'production' : 'development'),
-  'import.meta.env.PROD': JSON.stringify(isProd),
-  'import.meta.env.DEV': JSON.stringify(!isProd),
-};
+await writeFile(TARGET, CONTENT, 'utf8');
+console.log('✔ env-api.js gerado em ' + TARGET);
 
-function buildCSS() {
-  const cliPath = resolve(__dirname, 'node_modules/@tailwindcss/cli/dist/index.mjs');
-  const args = [cliPath, '-i', 'docs/src/index.css', '-o', `${outdir}/styles.css`];
-  if (isProd) args.push('--minify');
-  if (isWatch) args.push('--watch');
-  const r = spawnSync(process.execPath, args, { stdio: 'inherit' });
-  if (r.status !== 0) process.exit(r.status || 1);
-}
-
-const esbuildOptions = {
-  entryPoints: [resolve(__dirname, 'docs/src/main.tsx')],
-  bundle: true,
-  outfile: `${outdir}/bundle.js`,
-  format: 'esm',
-  target: 'es2020',
-  minify: isProd,
-  sourcemap: !isProd,
-  jsx: 'automatic',
-  loader: {
-    '.css': 'empty',
-    '.png': 'file',
-    '.svg': 'file',
-    '.jpg': 'file',
-    '.woff2': 'file',
-  },
-  define: envDefines,
-  logLevel: 'info',
-  publicPath: '/',
-};
-
-async function main() {
-  if (isWatch) {
-    // CSS watch (blocking spawn with stdio inherit)
-    buildCSS();
-    // JS watch via esbuild context
-    const ctx = await esbuild.context(esbuildOptions);
-    await ctx.watch();
-    console.log('👀 Watching for changes...');
-  } else {
-    buildCSS();
-    await esbuild.build(esbuildOptions);
-    console.log('✅ Build complete:', outdir);
-  }
-}
-
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});

@@ -8,16 +8,24 @@ on:
 
 jobs:
   frontend:
-    name: Build Frontend (esbuild)
+    name: Build Frontend (estático)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
-      - run: npm ci
-      - run: npm run build
+      # Frontend é 100% HTML+CSS+JS puro — o build apenas valida os arquivos
+      # e gera o env-api.js. Não há dependências npm.
+      - run: node build.mjs
+      - name: Sanidade básica (arquivos essenciais presentes)
+        run: |
+          test -f docs/index.html
+          test -f docs/app.js
+          test -f docs/pages.js
+          test -f docs/api.js
+          test -f docs/httpService.js
+          echo "frontend ok"
 
   backend:
     name: Build Backend (Spring Boot)

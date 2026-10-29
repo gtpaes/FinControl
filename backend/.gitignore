@@ -11,9 +11,11 @@ target/
 *.tsbuildinfo
 
 # ===== Secrets / ambiente =====
-# NUNCA versionar credenciais reais
+# NUNCA versionar credenciais reais (.env, .env.local, ...)
 .env
 .env.*
+# Mas o modelo de exemplo deve ser versionado:
+!.env.example
 
 # ===== Logs =====
 *.log

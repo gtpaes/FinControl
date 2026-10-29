@@ -1,5 +1,5 @@
 package com.fincontrol.dto;
 
-/** Resposta da análise do assistente. */
-public record AiAnalyzeResponse(String reply) {
+/** Resposta do assistente. {@code source}: "claude" ou "local" (modo de regras, sem chave/indisponível). */
+public record AiAnalyzeResponse(String reply, String source) {
 }

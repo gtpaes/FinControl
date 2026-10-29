@@ -52,6 +52,13 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+        <!-- SDK oficial da Anthropic (assistente financeiro com Claude) -->
+        <dependency>
+            <groupId>com.anthropic</groupId>
+            <artifactId>anthropic-java</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
         <!-- JWT (biblioteca gratuita, sem serviços externos) -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

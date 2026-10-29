@@ -2,9 +2,11 @@
 backend/target/
 *.class
 
-# ===== Frontend (esbuild) =====
+# ===== Frontend =====
 node_modules/
 *.tsbuildinfo
+# Config de ambiente gerada pelo build (build.mjs) — não versionar
+docs/env-api.js
 
 # ===== IDE =====
 .idea/
@@ -15,6 +17,9 @@ node_modules/
 # NUNCA versionar credenciais reais (.env, .env.local, .env.production...)
 .env
 .env.*
+# Mas o modelo de exemplo deve ser versionado:
+!.env.example
+!backend/.env.example
 
 # ===== Logs =====
 *.log

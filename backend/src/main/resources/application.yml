@@ -36,3 +36,10 @@ app:
       # Aceita ISO-8601 (ex.: PT1H = 1 hora) ou milissegundos (ex.: 3600000).
       # Valor padrão: 1 hora.
       expiration: ${JWT_EXPIRATION:PT1H}
+  ai:
+    # Assistente financeiro (API do Claude). A chave vem SEMPRE de variável de
+    # ambiente. Sem chave, o assistente cai no modo local por regras.
+    anthropic:
+      api-key: ${ANTHROPIC_API_KEY:}
+      model: ${ANTHROPIC_MODEL:claude-haiku-5-5}
+      max-tokens: ${ANTHROPIC_MAX_TOKENS:600}

@@ -5,6 +5,7 @@ import com.fincontrol.dto.AiAnalyzeResponse;
 import com.fincontrol.dto.InsightResponse;
 import com.fincontrol.dto.NotificationResponse;
 import com.fincontrol.security.UserPrincipal;
+import com.fincontrol.service.AssistantService;
 import com.fincontrol.service.InsightsService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,9 +26,11 @@ import java.util.List;
 public class InsightsController {
 
     private final InsightsService insightsService;
+    private final AssistantService assistantService;
 
-    public InsightsController(InsightsService insightsService) {
+    public InsightsController(InsightsService insightsService, AssistantService assistantService) {
         this.insightsService = insightsService;
+        this.assistantService = assistantService;
     }
 
     @GetMapping("/insights")
@@ -43,6 +46,6 @@ public class InsightsController {
     @PostMapping("/ai/analyze")
     public AiAnalyzeResponse analyze(@AuthenticationPrincipal UserPrincipal principal,
                                      @Valid @RequestBody AiAnalyzeRequest request) {
-        return new AiAnalyzeResponse(insightsService.analyze(principal.getId(), request.message()));
+        return assistantService.reply(principal.getId(), request);
     }
 }

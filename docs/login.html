@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>FinControl — Login</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-branding">
+      <div class="auth-branding-content">
+        <div class="auth-logo">
+          <div class="auth-logo-icon">F</div>
+          <span class="auth-logo-text">FinControl</span>
+        </div>
+        <h2>Tenha controle total sobre sua vida financeira.</h2>
+        <p>Organize suas finanças, acompanhe seu patrimônio e tome decisões mais inteligentes.</p>
+        <div class="auth-features">
+          <div class="auth-feature">
+            <div class="auth-feature-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 16l4-6 4 3 5-8"/></svg></div>
+            <span>Organize suas finanças</span>
+          </div>
+          <div class="auth-feature">
+            <div class="auth-feature-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg></div>
+            <span>Acompanhe seu patrimônio</span>
+          </div>
+          <div class="auth-feature">
+            <div class="auth-feature-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+            <span>Planeje seus objetivos</span>
+          </div>
+          <div class="auth-feature">
+            <div class="auth-feature-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg></div>
+            <span>Decisões inteligentes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="auth-form-section">
+      <div class="auth-form-wrapper">
+        <div class="auth-form-header">
+          <h1 id="auth-title">Bem-vindo de volta</h1>
+          <p>Entre na sua conta para continuar</p>
+        </div>
+        <form id="form-login">
+          <div class="form-group">
+            <label class="form-label" for="login-email">E-mail</label>
+            <input type="email" id="login-email" class="form-input" placeholder="seu@email.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="login-password">Senha</label>
+            <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="btn-login">Entrar</button>
+        </form>
+        <form id="form-register" class="hidden">
+          <div class="form-group">
+            <label class="form-label" for="reg-name">Nome</label>
+            <input type="text" id="reg-name" class="form-input" placeholder="Seu nome" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-email">E-mail</label>
+            <input type="email" id="reg-email" class="form-input" placeholder="seu@email.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-password">Senha</label>
+            <input type="password" id="reg-password" class="form-input" placeholder="Mínimo 6 caracteres" required minlength="6">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="btn-register">Criar conta</button>
+        </form>
+        <div class="auth-footer">
+          <span id="auth-footer-text">Ainda não possui uma conta?</span>
+          <a href="#" id="auth-toggle">Criar conta</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="toast-container" id="toast-container"></div>
+  <script src="js/env-api.js"></script>
+  <script type="module" src="js/auth-ui.js"></script>
+</body>
+</html>
